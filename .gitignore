@@ -1,0 +1,10 @@
+node_modules
+.next
+.env*
+!.env.example
+work/
+.yanax-next/
+tsconfig.tsbuildinfo
+.netlify/
+
+next-env.d.ts
