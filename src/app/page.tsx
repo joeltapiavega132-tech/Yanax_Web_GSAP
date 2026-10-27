@@ -35,15 +35,17 @@ export default function Home() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mobile = window.matchMedia('(max-width: 760px)').matches;
     if (reduced) return;
     const ctx = gsap.context(() => {
+      if (mobile) gsap.set('.hero-stage', { yPercent: 0 });
       const intro = gsap.timeline({ delay: 1.25, defaults: { ease: 'power3.out' } });
       intro.from('.hero-kicker', { y: 28, opacity: 0, duration: .65 })
         .from('.hero-line', { yPercent: 110, rotate: 2, duration: 1, stagger: .12 }, '-=.35')
-        .from('.hero-stage', { y: 85, rotate: 10, opacity: 0, duration: 1.2 }, '-=1.1')
+        .from('.hero-stage', { y: mobile ? 30 : 85, rotate: mobile ? 2 : 10, opacity: 0, duration: 1.2 }, '-=1.1')
         .from('.hero-sub', { y: 30, opacity: 0, duration: .7 }, '-=.55');
-      gsap.to('.hero-stage', { y: 90, rotate: -5, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
-      gsap.to('.hero-grid', { y: 125, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
+      gsap.to('.hero-stage', { y: mobile ? 22 : 90, rotate: mobile ? -2 : -5, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
+      gsap.to('.hero-grid', { y: mobile ? 40 : 125, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
       gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach(el => {
         gsap.from(el, { y: 56, opacity: 0, duration: .95, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
       });
